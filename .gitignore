@@ -1,0 +1,30 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+
+# Docker
+*.pid
+dist/
+build/
+
+# VSCode
+.vscode/
+
+# Mac system files
+.DS_Store
+
+# Jenkins
+.jenkins/
+
+# Ignore local coverage reports
+coverage/
+
+# Ignore Docker local files
+docker-compose.override.yml
