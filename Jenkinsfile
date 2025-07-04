@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Install Dependencies') {
       agent {
-        docker { image 'node:21.0.0-alpine' }
+        docker { image 'buildkite/puppeteer' }
       }
       steps {
         sh 'npm install'
