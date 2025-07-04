@@ -23,7 +23,7 @@ pipeline {
     }
     stage('Run') {
       steps {
-        sh 'docker run -d -p 3000:3000 --name todo-api todo-api'
+        sh 'docker run -d --network host --name todo-api todo-api'
       }
     }
   }
