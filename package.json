@@ -2,8 +2,10 @@
     "name": "todo-api",
     "version": "1.0.0",
     "main": "src/app.js",
-    "start": "node src/app.js",
-    "test": "echo \"no test specified\"",
+    "scripts": {
+        "start": "node src/app.js",
+        "test": "echo \"no test specified\""
+    },
     "dependencies": {
         "express": "^4.18.2"
     }
