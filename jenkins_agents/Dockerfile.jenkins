@@ -21,5 +21,5 @@ RUN apt-get update && \
 
 
 # Add jenkins user to group 20 (staff) directly, regardless of group name
-RUN usermod -aG 20 jenkins
-USER jenkins
+# RUN usermod -aG 1000 jenkins
+# USER jenkins
