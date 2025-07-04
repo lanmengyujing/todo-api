@@ -1,5 +1,7 @@
 pipeline {
-  agent any
+  agent {
+    docker { image 'node:21.0.0-alpine' }
+  }
   stages {
     stage('Install Dependencies') {
       steps {
