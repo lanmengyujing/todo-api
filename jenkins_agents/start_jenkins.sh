@@ -1,7 +1,9 @@
 #!/bin/bash
 
-docker-compose up --build
-if [ $? -ne 0 ]; then
-    echo "Failed to start Jenkins. Please check the Docker logs for more details."
-    exit 1
-fi
+# Stop and remove any previously running Jenkins containers via docker-compose
+docker-compose -f "$(dirname "$0")/docker-compose.yml" down
+
+# Start Jenkins with docker-compose
+docker-compose -f "$(dirname "$0")/docker-compose.yml" up 
+
+echo "Jenkins is starting. Visit http://localhost:8080 after a few moments."
