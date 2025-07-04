@@ -1,29 +1,75 @@
 pipeline {
   agent any
+  options {
+    timestamps()
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+    timeout(time: 30, unit: 'MINUTES')
+  }
+  parameters {
+    string(name: 'ENV', defaultValue: 'dev', description: 'Target environment')
+  }
+  environment {
+    DOCKER_IMAGE = "todo-api:${env.BUILD_NUMBER}"
+  }
   stages {
     stage('Install Dependencies') {
       steps {
-        sh 'npm install'
+        script {
+          sh 'npm install'
+        }
+      }
+    }
+    stage('Lint') {
+      steps {
+        script {
+          sh './scripts/lint.sh'
+        }
       }
     }
     stage('Test') {
       steps {
-        sh 'npm test || echo "No tests found, skipping."'
+        script {
+          sh './scripts/test.sh'
+        }
       }
     }
     stage('Cleanup') {
       steps {
-        sh 'docker rm -f todo-api || true'
+        script {
+          sh 'docker rm -f todo-api || true'
+        }
       }
     }
     stage('Build') {
       steps {
-        sh 'docker build -t todo-api .' 
+        script {
+          sh "docker build -t $DOCKER_IMAGE ."
+        }
       }
     }
-    stage('Run') {
+    stage('Deploy to Staging') {
+      when {
+        expression { params.ENV == 'staging' }
+      }
+      environment {
+        DEPLOY_ENV = 'staging'
+      }
       steps {
-       sh 'docker run -d --network jenkins_agents_default --name todo-api todo-api'
+        script {
+          sh "echo Deploying to ${params.ENV} environment"
+          sh "docker run -d --network jenkins_agents_default --name todo-api $DOCKER_IMAGE"
+        }
+      }
+    }
+  }
+  post {
+    always {
+      cleanWs()
+    }
+    failure {
+      script {
+        // Replace with your notification logic, e.g., Slack or email
+        echo "Build failed for ${env.JOB_NAME}"
       }
     }
   }

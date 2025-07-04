@@ -14,3 +14,9 @@ cd jenkins_agents
 
 - name: admin
 - password: admin
+
+
+# See todo API
+ curl http://todo-api:3000
+
+ docker exec -it jenkins-master curl http://todo-api:3000
