@@ -28,3 +28,5 @@ coverage/
 
 # Ignore Docker local files
 docker-compose.override.yml
+
+jenkins_agents/jenkins_home/**    
