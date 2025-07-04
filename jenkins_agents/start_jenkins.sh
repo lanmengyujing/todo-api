@@ -1,11 +1,7 @@
 #!/bin/bash
 
-
-docker rm -f jenkins || true
-
-docker run -d \
-  --name jenkins \
-  -p 8080:8080 -p 50000:50000 \
-  -v "$(pwd)/jenkins_home":/var/jenkins_home \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  jenkins/jenkins:lts
+docker-compose up --build
+if [ $? -ne 0 ]; then
+    echo "Failed to start Jenkins. Please check the Docker logs for more details."
+    exit 1
+fi
