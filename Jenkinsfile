@@ -2,17 +2,11 @@ pipeline {
   agent any
   stages {
     stage('Install Dependencies') {
-      agent {
-        docker { image 'buildkite/puppeteer' }
-      }
       steps {
         sh 'npm install'
       }
     }
     stage('Test') {
-      agent {
-        docker { image 'node:21.0.0-alpine' }
-      }
       steps {
         sh 'npm test || echo "No tests found, skipping."'
       }
